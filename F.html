@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flash Player Pro</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      margin: 0;
+      background: #ffd700;
+      font-family: sans-serif;
+    }
+    #player-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: 100vh;
+      background: black;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #controls {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      color: white;
+    }
+    .hidden { display: none; }
+    button, select {
+      background: #fff200;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 5px;
+      font-weight: bold;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="player-container">
+  <video id="video" controls>
+    <source src="https://cdn06khi.tamashaweb.com:8087/jazzauth/PSL10-abr/playlist.m3u8" type="application/x-mpegURL">
+    Your browser does not support the video tag.
+  </video>
+
+  <div id="controls">
+    <button onclick="togglePlay()">Play/Pause</button>
+    <select id="quality">
+      <option>Auto</option>
+      <option>1080p - 60 Mbps</option>
+      <option>1080p - 40 Mbps</option>
+      <option>1080p - 20 Mbps</option>
+      <option>720p - 6 Mbps</option>
+      <option>480p - 1.5 Mbps</option>
+    </select>
+    <select id="aspect">
+      <option value="contain">Fit</option>
+      <option value="cover">Fill</option>
+      <option value="auto">Auto</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  const video = document.getElementById("video");
+  const aspectSelect = document.getElementById("aspect");
+
+  function togglePlay() {
+    if (video.paused) video.play();
+    else video.pause();
+  }
+
+  aspectSelect.addEventListener("change", () => {
+    video.style.objectFit = aspectSelect.value;
+  });
+
+  // Auto-hide controls
+  let timer;
+  const controls = document.getElementById("controls");
+  document.addEventListener("mousemove", () => {
+    controls.classList.remove("hidden");
+    clearTimeout(timer);
+    timer = setTimeout(() => controls.classList.add("hidden"), 3000);
+  });
+</script>
+
+</body>
+</html>
